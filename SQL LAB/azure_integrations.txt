@@ -1,0 +1,139 @@
+CREATE OR REPLACE DATABASE AZUREDATABASE;
+USE AZUREDATABASE;
+
+DROP TABLE HEALTHCARE;
+
+CREATE OR REPLACE TABLE HEALTHCARE(
+Patientid VARCHAR(15),	
+gender CHAR(8),	
+age VARCHAR(5)	,
+hypertension CHAR(20),	
+heart_disease CHAR(20),	
+ever_married CHAR(30),	
+work_type VARCHAR(60),	
+Residence_type CHAR(30)	,
+avg_glucose_level VARCHAR(20),	
+bmi VARCHAR(20)	,
+smoking_status	VARCHAR(20),
+stroke CHAR(20)
+);
+
+
+CREATE OR REPLACE NOTIFICATION INTEGRATION HEALTHCARE_EVENT
+ENABLED = TRUE
+TYPE= QUEUE
+NOTIFICATION_PROVIDER= AZURE_STORAGE_QUEUE
+AZURE_STORAGE_QUEUE_PRIMARY_URI='https://storagesnowpipe.queue.core.windows.net/healthcare-data-queue'
+AZURE_TENANT_ID='6320d389-0e25-4984-8ae5-77b94d233710';
+
+SHOW INTEGRATIONS;
+
+
+desc NOTIFICATION INTEGRATION HEALTHCARE_EVENT;
+
+
+CREATE OR REPLACE STAGE HEALTHCARE_STAGE
+url = 'azure://storagesnowpipe.blob.core.windows.net/healthcare-data-blob/'
+credentials = (azure_sas_token=
+'?sv=2021-12-02&ss=bfqt&srt=co&sp=rwlacpitfx&se=2023-04-12T17:19:34Z&st=2023-03-12T09:19:34Z&spr=https&sig=XSAtQPeN4b8jG98fsfrw832eOpIZgZYDafZK7%2FzOKKI%3D'
+);
+
+
+SHOW STAGES;
+
+LS @HEALTHCARE_STAGE;
+
+CREATE OR REPLACE pipe "HEALTHCARE_PIPE"
+  auto_ingest = true
+  integration = 'HEALTHCARE_EVENT'
+  as
+  copy into HEALTHCARE
+  from @HEALTHCARE_STAGE
+  file_format = (type = 'CSV');
+  
+SELECT * FROM  HEALTHCARE;
+  
+  
+ALTER PIPE HEALTHCARE_PIPE REFRESH;
+
+
+-------------------AZURE----------------------
+Storage Notification Queue : https://snowflakeautodataload.queue.core.windows.net/healthcaredataqueue
+
+Azure Active Directory ID (tenant ID) : 96fde624-54c9-4a02-8820-4905300a00dd
+
+Snowflake/Enterprise Applications Name (after approval login link generated from DESC INTEGRATION) : rpscgmsnowflakepacint
+
+Primary Endpoint Blob Service : https://snowflakeautodataload.blob.core.windows.net/
+
+Blob Service SAS Url : https://snowflakeautodataload.blob.core.windows.net/?sv=2021-12-02&ss=bfqt&srt=co&sp=rwdlacupiytfx&se=2023-03-12T20:15:56Z&st=2023-03-12T12:15:56Z&spr=https&sig=7BK0M5uwxBCs7AP4lbyBO%2FBzwqXJFP72LwIqYCBeoQM%3D
+
+SAS Token : ?sv=2021-12-02&ss=bfqt&srt=co&sp=rwdlacupiytfx&se=2023-03-12T20:15:56Z&st=2023-03-12T12:15:56Z&spr=https&sig=7BK0M5uwxBCs7AP4lbyBO%2FBzwqXJFP72LwIqYCBeoQM%3D
+
+CREATE OR REPLACE DATABASE AZUREDATABASE;
+
+USE AZUREDATABASE;
+
+DROP TABLE AZURE_HEALTHCARE;
+
+CREATE OR REPLACE TABLE AZURE_HEALTHCARE(
+Patientid VARCHAR(15),	
+gender CHAR(8),	
+age VARCHAR(5)	,
+hypertension CHAR(20),	
+heart_disease CHAR(20),	
+ever_married CHAR(30),	
+work_type VARCHAR(60),	
+Residence_type CHAR(30)	,
+avg_glucose_level VARCHAR(20),	
+bmi VARCHAR(20)	,
+smoking_status	VARCHAR(20),
+stroke CHAR(20)
+);
+
+
+CREATE OR REPLACE NOTIFICATION INTEGRATION HEALTHCARE_EVENT
+ENABLED = TRUE
+TYPE= QUEUE
+NOTIFICATION_PROVIDER= AZURE_STORAGE_QUEUE
+AZURE_STORAGE_QUEUE_PRIMARY_URI='https://snowflakeautodataload.queue.core.windows.net/healthcaredataqueue'
+AZURE_TENANT_ID='96fde624-54c9-4a02-8820-4905300a00dd';
+
+SHOW INTEGRATIONS;
+
+DESC NOTIFICATION INTEGRATION HEALTHCARE_EVENT;
+
+
+CREATE OR REPLACE STAGE HEALTHCARE_STAGE
+url = 'azure://snowflakeautodataload.blob.core.windows.net/healthcaredatablob/'
+credentials = (azure_sas_token='?sv=2021-12-02&ss=bfqt&srt=co&sp=rwdlacupiytfx&se=2023-03-12T20:15:56Z&st=2023-03-12T12:15:56Z&spr=https&sig=7BK0M5uwxBCs7AP4lbyBO%2FBzwqXJFP72LwIqYCBeoQM%3D'
+);
+
+
+SHOW STAGES;
+
+LS @HEALTHCARE_STAGE;
+
+CREATE OR REPLACE pipe "HEALTHCARE_PIPE"
+  auto_ingest = true
+  integration = 'HEALTHCARE_EVENT'
+  as
+  copy into AZURE_HEALTHCARE
+  from @HEALTHCARE_STAGE
+  file_format = CSV_HEALTHCARE;
+  
+SELECT * FROM  AZURE_HEALTHCARE;
+  
+  
+ALTER PIPE HEALTHCARE_PIPE REFRESH;
+
+select * from table(information_schema.copy_history(table_name=>'AZURE_HEALTHCARE', start_time=>
+dateadd(hours, -1, current_timestamp())));
+
+
+
+
+
+
+
+
