@@ -1,0 +1,72 @@
+
+#1. What exactly is []?
+'''Ans-
+Index brackets ([]). First, they are used to define "list literals," 
+allowing you to declare a list and its contents in your program'''
+#2. In a list of values stored in a variable called spam, how would you assign the value 'hello' as the third value? (Assume [2, 4, 6, 8, 10] are in spam.)
+
+spam= [2, 4, 6, 8, 10]
+spam[2]="hello"
+print(spam)
+[2, 4, 'hello', 8, 10]
+#Let's pretend the spam includes the list ['a', 'b', 'c', 'd'] for the next three queries.
+#3. What is the value of spam[int(int('3' * 2) / 11)]?
+#4. What is the value of spam[-1]?
+#5. What is the value of spam[:2]?
+
+spam=['a', 'b', 'c', 'd']
+spam[int(int('3' * 2) / 11)] #3*2 become 33 /11 = 3 value will be d
+spam[-1] #value is d
+spam[:2] #value is a,b
+['a', 'b']
+#Let's pretend bacon has the list [3.14, 'cat,' 11, 'cat,' True] for the next three questions.
+#6. What is the value of bacon.index('cat')?
+#7. How does bacon.append(99) change the look of the list value in bacon?
+#8. How does bacon.remove('cat') change the look of the list in bacon?
+
+bacon=[3.14, 'cat', 11, 'cat', True]
+bacon.index('cat') #value is 1
+bacon.append(99) #it will add 99 at 5th index [3.14, 'cat', 11, 'cat', True, 99]
+bacon.remove('cat') #it will remove the very first 'cat' [3.14, 11, 'cat', True, 99]
+print(bacon)
+[3.14, 11, 'cat', True, 99]
+#9. What are the list concatenation and list replication operators?
+
+'''The operator for list concatenation is +, while the operator for replication is *'''
+#10. What is difference between the list methods append() and insert()?
+
+'''append will add values at the end of the list and insert will add the values anywhere in the list'''
+#11. What are the two methods for removing items from a list?
+
+'''list.del[]
+   list.remove()
+   list.pop()'''
+#12. Describe how list values and string values are identical.
+
+
+'''Both lists and strings can be passed to len(), have indexes and slices, be used in for loops,
+be concatenated or replicated, and be used with the in and not in operators.'''
+#13. What's the difference between tuples and lists?
+
+
+'''Lists are mutable; they can have values added, removed, or changed. Tuples are immutable; they cannot be changed at all.
+Also, tuples are written using parentheses, ( ), while lists use the square brackets, [ ]'''
+#14. How do you type a tuple value that only contains the integer 42?
+
+'''(42,) (The trailing comma is mandatory)'''
+#15. How do you get a list value's tuple form? How do you get a tuple value's list form?
+
+'''list()
+   tuple()'''
+value = (10, 20, 30, 40, 50)
+my_tuple = list(value)
+print(my_tuple)
+[10, 20, 30, 40, 50]
+#16. Variables that "contain" list values are not necessarily lists themselves. Instead, what do they contain?
+
+'''They contain references to list values.'''
+#17. How do you distinguish between copy.copy() and copy.deepcopy()?
+
+
+'''The copy.copy() function will do a shallow copy of a list, while the copy.deepcopy() function will do a 
+deep copy of a list. That is, only copy.deepcopy() will duplicate any lists inside the list.'''
