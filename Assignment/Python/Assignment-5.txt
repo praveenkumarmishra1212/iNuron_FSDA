@@ -1,0 +1,63 @@
+
+#1. What does an empty dictionary's code look like?
+
+myDict={}
+print(type(myDict))
+<class 'dict'>
+#2. What is the value of a dictionary value with the key 'foo' and the value 42?
+
+myDict={'foo':42}
+print(myDict.values())
+dict_values([42])
+#3. What is the most significant distinction between a dictionary and a list?
+
+'''
+List is created by placing elements in [ ] separated by commas,
+“Dictionary is created by placing elements in { } as “key”:”value”, each key value pair is separated by commas'''
+#4. What happens if you try to access spam['foo'] if spam is {'bar': 100}?
+
+
+spam={'bar': 100}
+spam['foo']   #KeyError
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+Input In [10], in <cell line: 2>()
+      1 spam={'bar': 100}
+----> 2 spam['foo']
+
+KeyError: 'foo'
+#5. If a dictionary is stored in spam, what is the difference between the expressions 'cat' in spam and 'cat' in spam.keys()?
+
+spam={'cat':''}
+'cat' in spam.keys()   #there is no difference. it'll check whether cat key is available or not
+'cat' in spam
+True
+#6. If a dictionary is stored in spam, what is the difference between the expressions 'cat' in spam and 'cat' in spam.values()?
+
+spam={'cat':''}
+'cat' in spam.values()   #it'll check for 'cat' value is available or not. it'll give you a output as false.
+'cat' in spam            #it'll check for 'cat' key is available or not.
+False
+#7. What is a shortcut for the following code?
+if 'color' not in spam:
+    spam['color'] = 'black'
+    
+spam.setdefault('color','black')
+    
+'black'
+#8. How do you "pretty print" dictionary values using which module and function?
+
+
+import pprint
+dct = [  {'Name': 'Rocky', 'Age':'25', 'Country': 'India'},
+       {'Name':'Roosie', 'Age':'32', 'Country':'Belgium'},
+       {'Name':'Rick', 'Age':'34', 'Country':'America'},
+       {'Name':'Aisha','Age':'26', 'Country':'Italy'}
+      ]
+
+pprint.pprint(dct)
+[{'Age': '25', 'Country': 'India', 'Name': 'Rocky'},
+ {'Age': '32', 'Country': 'Belgium', 'Name': 'Roosie'},
+ {'Age': '34', 'Country': 'America', 'Name': 'Rick'},
+ {'Age': '26', 'Country': 'Italy', 'Name': 'Aisha'}]
+ 
